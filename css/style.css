@@ -1,0 +1,353 @@
+/* Réinitialisation de base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  /* La couleur de fond globale de votre site */
+}
+
+/* Couleurs par défaut (Mode clair) */
+:root {
+  --bg-color: #9fc3cc;
+  --bg-color2: #bce7f2;
+  --bg-color3: #fff;
+  --text-color: #000;
+  --text-color2: #1a1a2e;
+  --text-color3: #2c2c4d;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --font-scale: 1;
+}
+
+/* Text Scaling */
+html {
+  font-size: calc(16px * var(--font-scale));
+}
+
+h1 {
+  font-size: 2rem;
+}
+
+h2 {
+  font-size: 1.5rem; /*= 24px par défaut, suit --font-scale */
+}
+
+h3 {
+  font-size: 1.25rem;
+}
+
+/* ─── LA NAVIGATION BAR FIXE ET DYNAMIQUE ─── */
+.navbar {
+  /* Rend la navbar fixe au scroll */
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  /* Style visuel de base */
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto;
+  grid-template-areas:
+    "logo burger"
+    "container container";
+  align-items: center;
+  row-gap: 10px;
+  padding: 20px var(--padding-left-right) 15px;
+  min-height: 70px;
+
+  background-color: var(--bg-color);
+  box-shadow: 0 2px 10px var(--shadow-color);
+
+  /* 2. CONFIGURATION DU SCROLL CSS */
+  animation: bgColor linear both;
+  animation-timeline: scroll(root); /* Écoute le scroll de la page */
+  animation-range: entry 0px exit 100%;
+}
+
+.navbar .main-logo {
+  grid-area: logo;
+}
+
+.navbar .main-logo,
+.nav-links a {
+  font-size: 16px;
+}
+
+.navbar div {
+  display: flex;
+  gap: var(--my-gap, 20px);
+}
+.navbar div > a,
+.nav-links a {
+  display: inline-flex;
+  text-decoration: none;
+  color: var(--text-color) !important;
+}
+
+.navbar .main-logo,
+.navbar div > p {
+  color: var(--text-color) !important;
+}
+.navbar .main-logo,
+.nav-links a {
+  font-weight: bold;
+}
+
+.navbar .container {
+  grid-area: container;
+}
+
+.navbar .container svg {
+  width: 100%;
+  height: 100%;
+}
+
+.navbar .container > :is(p, a):not(:last-child)::after {
+  content: "|";
+  margin-left: 15px;
+  color: var(--text-color);
+  align-self: center;
+  line-height: 1;
+}
+
+/* ─── LE CONTENU ─── */
+.content {
+  display: flex;
+  flex-direction: column;
+  padding: 50px var(--padding-left-right);
+  /* On donne une grande hauteur pour forcer l'apparition du scroll */
+  background: linear-gradient(var(--bg-color2), var(--bg-color3));
+}
+
+/* ─── Side Bar Menu ─── */
+.menu-checkbox {
+  display: none; /* Keeps it completely hidden */
+}
+
+.navbar .hamburger-btn {
+  grid-area: burger;
+  justify-self: end;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+.hamburger-btn span {
+  display: block;
+  width: 28px;
+  height: 3px;
+  background-color: var(--text-color); /* Follows the navbar color change!*/
+}
+
+.nav-menu {
+  position: fixed;
+  top: 0;
+  right: -300px; /* Hidden off-screen by default */
+  width: 280px;
+  height: 100vh;
+  background-color: var(--bg-color); /* Dark theme for the panel */
+  animation: bgColor linear both;
+  animation-timeline: scroll(root); /* Écoute le scroll de la page */
+  animation-range: entry 0px exit 100%;
+  padding: 80px 40px;
+  box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
+
+  /* Smooth sliding transition */
+  transition: right 0.4s cubic-bezier(0.05, 0.74, 0.2, 1);
+  z-index: 1002;
+}
+
+.menu-checkbox:checked ~ .nav-menu {
+  right: 0; /* Slides into view */
+}
+
+.nav-links {
+  display: flex;
+  flex-direction: column; /* Stacked vertically */
+  gap: 25px;
+  list-style: none;
+}
+
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 36px;
+  color: var(--text-color);
+  cursor: pointer;
+}
+
+/* Overlay qui assombrit et bloque le reste de la page */
+.nav-overlay {
+  position: fixed;
+  inset: 0; /* équivalent à top:0; right:0; bottom:0; left:0; */
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.4s ease,
+    visibility 0.4s ease;
+  z-index: 1001; /* sous le nav-menu (1002), au-dessus du reste */
+}
+
+.menu-checkbox:checked ~ .nav-overlay {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Bloque le scroll de la page quand le menu est ouvert */
+body:has(.menu-checkbox:checked) {
+  overflow: hidden;
+}
+
+/* HERO */
+#hero {
+  display: flex;
+  justify-content: space-between;
+}
+/* PHOTO HERO */
+#hero .frame {
+  border: 2px solid var(--text-color3);
+  width: 20%;
+}
+
+/* STRUCTURE SECTION */
+section {
+  min-height: 40vh;
+  color: var(--text-color);
+}
+
+section > h2 {
+  margin: 20px 0;
+}
+
+section > ul {
+  list-style-type: none;
+}
+
+section > ul > li {
+  margin-bottom: 20px;
+}
+
+section > ul > li > div {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+section > ul > li > div > p {
+  font-weight: bold;
+}
+
+section > ul ul {
+  list-style-type: disc;
+}
+
+section > ul ul > li {
+  margin-left: 30px;
+  padding-left: 10px;
+}
+
+section > ul > li > ul > span {
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+section span {
+  color: var(--text-color3);
+}
+
+/* FOOTER */
+footer {
+  min-height: 10hv;
+  background-color: var(--bg-color2);
+  box-shadow: 10px 2px 10px var(--shadow-color);
+  padding: 10px var(--padding-left-right);
+}
+
+.footer-bottom p {
+  color: var(--text-color);
+}
+
+/* variable curent-year mise en place pour du JS auto */
+.footer-bottom .copyright::before {
+  content: "© " var(--current-year, "2026") " Grégoire YANG. Tous droits réservés.";
+}
+
+/* Détection automatique du Mode sombre */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-color: #000;
+    --bg-color2: #1a1a2e;
+    --bg-color3: #2c2c4d;
+    --text-color: #fff;
+    --text-color2: #bce7f2;
+    --text-color3: #9fc3cc;
+    --shadow-color: rgba(250, 250, 250, 0.1);
+  }
+}
+
+/* ─── Couleur de Fonds ─── */
+@keyframes bgColor {
+  to {
+    background-color: var(--bg-color2);
+    box-shadow: 0 4px 20px var(--shadow-color);
+  }
+}
+
+@media (max-width: 767px) {
+  :root {
+    --my-gap: 10px;
+    --padding-left-right: 20px;
+    --font-scale: 0.5;
+  }
+
+  .container p {
+    display: none;
+  }
+
+  #hero .frame {
+    width: 40%;
+  }
+
+  section {
+    min-height: 25vh;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  :root {
+    --my-gap: 15px;
+    --padding-left-right: 40px;
+    --font-scale: 0.9;
+  }
+
+  .container p {
+    display: none;
+  }
+
+  #hero .frame {
+    width: 30%;
+  }
+
+  section {
+    min-height: 30vh;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --my-gap: 20px;
+    --padding-left-right: 50px;
+  }
+
+  .container svg {
+    display: none;
+  }
+}
