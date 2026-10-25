@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self' https://formspree.io; form-action https://formspree.io; base-uri 'none'; object-src 'none'" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <script src="js/theme.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact | Grégoire Yang</title>
+    <meta name="description" content="Contacter Grégoire Yang via le formulaire, LinkedIn ou GitHub, et télécharger son CV." />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <a class="skip" href="#content">Aller au contenu</a>
+    <nav id="main-navbar" class="nav" aria-label="Navigation principale"></nav>
+    <main id="content" class="main">
+      <h1>Contact</h1>
+      <section class="section">
+        <p>Le plus simple : le formulaire ci-dessous, je réponds dès que possible.</p>
+        <ul class="tags" aria-label="Liens">
+          <li><a class="btn btn--ghost" href="assets/cv-gregoire-yang.pdf" download>Télécharger mon CV (PDF)</a></li>
+          <li><a class="btn btn--ghost" href="https://www.linkedin.com/in/gr%C3%A9goire-yang-08a01b301/" rel="noopener noreferrer">LinkedIn</a></li>
+          <li><a class="btn btn--ghost" href="https://github.com/gregoireY" rel="noopener noreferrer">GitHub</a></li>
+        </ul>
+      </section>
+      <section class="section" aria-labelledby="f">
+        <h2 id="f">Envoyer un message</h2>
+        <form class="form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" novalidate>
+          <div class="form__field"><label for="name">Nom</label><input class="form__input" id="name" name="name" autocomplete="name" maxlength="100" required aria-describedby="name-err" /><span class="form__error" id="name-err"></span></div>
+          <div class="form__field"><label for="email">E-mail</label><input class="form__input" id="email" name="email" type="email" autocomplete="email" maxlength="150" required aria-describedby="email-err" /><span class="form__error" id="email-err"></span></div>
+          <div class="form__field"><label for="msg">Message</label><textarea class="form__input" id="msg" name="message" rows="6" maxlength="2000" required aria-describedby="msg-err"></textarea><span class="form__error" id="msg-err"></span></div>
+          <input class="form__trap" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" />
+          <button class="btn" type="submit">Envoyer le message</button>
+          <p class="form__status" role="status"></p>
+        </form>
+      </section>
+    </main>
+    <footer id="main-footer" class="footer"></footer>
+    <script src="js/include.js"></script>
+    <script src="js/interactive.js"></script>
+  </body>
+</html>
